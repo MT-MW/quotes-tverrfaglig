@@ -19,8 +19,8 @@ app.listen(3000, async () => {
     console.info('app started @ localhost 3000!');
 });
 
-app.use('/', defaultRoutes);
 app.use('/', profileRoutes);
+app.use('/', defaultRoutes);
 
 app.use((req, res) => {
     res.status(404).render('404', { title: 'error 404' });
