@@ -4,8 +4,8 @@ const index = (req, res) => {
     } catch(err) {
         console.log(err);
     }
-}
+};
 
 module.exports = {
     index,
-}
+};

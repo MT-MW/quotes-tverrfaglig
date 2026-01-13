@@ -1,0 +1,16 @@
+<form class="signupForm" action="/sign-up" method="POST">
+    <h2>SIGN UP</h2>
+    <label for="username">username:</label>
+    <input type="text" name="username" required>
+
+    <label for="password">password:</label>
+    <input type="password" name="password" required>
+
+    <label for="confirmPassword">confirm password:</label>
+    <input type="password" name="confirmPassword" required>
+    <%-include('./partials/messageField.ejs') %>
+
+    <button type="submit">SIGN UP</button>
+
+    <p>Already have an account? <br> <a href="/log-in">Log in here</a></p>
+</form>
