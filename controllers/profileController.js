@@ -1,4 +1,5 @@
 const { User, verifyPassword } = require('../models/user');
+const { Quote } = require('../models/quotes');
 const jwt = require('jsonwebtoken');
 
 const signupGET = (req, res) => {
@@ -106,12 +107,35 @@ const home = async (req, res) => {
             return res.redirect(`/home/${loggedInUser.username}`);
         }
 
-        res.render('home', { user: loggedInUser, title: 'Home', flash });
+        const quotes = await Quote.find({ user: loggedInUser.id });
+
+        res.render('home', { 
+            user: loggedInUser, 
+            title: 'Home',
+            quotes,
+            flash,  
+        });
     } catch (err) {
         res.status(500).render('404');
     }
 };
 
+const createQuote = async (req, res) => {
+    try{
+        const loggedInUser = await User.findById(req.auth.id);
+        const quote = new Quote({
+            quote: req.body.newQuote,
+            quoteOrigin: req.body.quoteOrigin,
+            user: loggedInUser._id
+        });
+
+        await quote.save()
+        res.redirect(`/home/${loggedInUser.username}`);
+
+    } catch(err) {
+        console.error(err);
+    }
+}
 
 function createFlashCookie(res, message) {
     console.log("Creating flash cookie with message:", message);
@@ -126,4 +150,5 @@ module.exports = {
     loginPOST,
     logout,
     home,
+    createQuote
 }

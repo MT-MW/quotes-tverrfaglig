@@ -1,6 +1,10 @@
 <%- include('./partials/head.ejs') %>
 <%- include('./partials/nav.ejs') %>
 
-<%- include('./partials/mainQuote') %>
+<% if(quote) { %>
+    <%- include('./partials/mainQuote.ejs', { quote }); %>
+<% } else { %>
+    <p>There are no quotes here currently :(</p>
+<% } %>
 
 <%- include('./partials/foot.ejs') %>

@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 
-const quoteSchema= new mongoose.schema({
+const Schema = mongoose.Schema;
+
+const quoteSchema= new Schema({
     quote: {
         type: String,
         required: true,
@@ -9,6 +11,11 @@ const quoteSchema= new mongoose.schema({
     },
     quoteOrigin: {
         type: String,
+        required: true,
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     }
 });
