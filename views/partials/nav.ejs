@@ -5,7 +5,7 @@
         <% if(typeof profileUser !== 'undefined' && profileUser !== null) { %>
             <h2><a href="/<%= profileUser.username %>"><%= profileUser.username %>'s quotes</a></h2>
         <% } else if(typeof user !== 'undefined' && user !== null) { %>
-            <h2><a href="/home/<%= user.username %>">QUOTES | <%= user.username %></a></h2>
+            <h2><a href="/home/<%= user.username %>">QUOTES - <%= user.username %></a></h2>
         <% } else { %>
             <h2><a href="/">QUOTES</a></h2>
         <% } %>

@@ -6,7 +6,7 @@ const signupGET = (req, res) => {
     if(req.cookies?.flash) {
         const message = req.cookies.flash;
         res.clearCookie('flash');
-        res.render('sign-up', {flash: {message: message, type: 'error'}});
+        res.render('sign-up', {flash: {message: message, type: 'error'}, title: 'Sign up'});
         return;
     }
     res.render('sign-up', {flash: null, title: 'Sign up'});
@@ -54,7 +54,7 @@ const loginGET = (req, res) => {
     if(req.cookies?.flash) {
         const message = req.cookies.flash;
         res.clearCookie('flash');
-        res.render('login', {flash: {message: message, type: 'error'}});
+        res.render('login', {flash: {message: message, type: 'error'}, title: 'Log in'});
         return;
     }
     res.render('login', { flash: null, title: 'Log in' });
@@ -86,6 +86,7 @@ const loginPOST = async (req, res) => {
             sameSite: 'strict'
         });
 
+        console.log('Login successful, redirecting to:', `/home/${user.username}`);
         return res.redirect(`/home/${user.username}`);
 
     }catch (error) {
@@ -100,6 +101,20 @@ const loginPOST = async (req, res) => {
 const logout = (req, res) => {
     res.clearCookie('accessToken');
     res.redirect('/log-in');
+};
+
+const deleteUser = async (req, res) => {
+    try {
+        const userToDelete = req.auth.id;
+
+        await Quote.deleteMany({ user: userToDelete });
+        await User.findByIdAndDelete(userToDelete);
+
+        res.clearCookie('accessToken');
+        res.redirect('/');
+    } catch(err) {
+        console.error(err);
+    }
 }
 
 const home = async (req, res) => {
@@ -127,7 +142,8 @@ const home = async (req, res) => {
             flash,  
         });
     } catch (err) {
-        res.status(500).render('404');
+        console.error('Error in home controller:', err);
+        res.status(500).render('404', { title: 'Error' });
     }
 };
 
@@ -140,6 +156,16 @@ const createQuote = async (req, res) => {
             user: loggedInUser._id
         });
 
+        if(!quote.quote) {
+            createFlashCookie(res, 'You need to enter a quote');
+            return res.redirect(`/home/${loggedInUser.username}`);
+        }
+
+        if(!quote.quoteOrigin) {
+            createFlashCookie(res, 'You need to enter a origin for your quote');
+            return res.redirect(`/home/${loggedInUser.username}`);
+        }        
+
         await quote.save()
         res.redirect(`/home/${loggedInUser.username}`);
 
@@ -150,7 +176,7 @@ const createQuote = async (req, res) => {
 
 function createFlashCookie(res, message) {
     console.log("Creating flash cookie with message:", message);
-    res.cookie('flash', message, {httpOnly: true, sameSite: 'strict',maxAge: 5000});
+    res.cookie('flash', message, {httpOnly: true, sameSite: 'strict', maxAge: 30000});
 }
 
 
@@ -160,6 +186,7 @@ module.exports = {
     loginGET,
     loginPOST,
     logout,
+    deleteUser,
     home,
     createQuote
 }

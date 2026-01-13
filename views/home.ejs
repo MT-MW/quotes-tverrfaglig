@@ -5,10 +5,10 @@
 <h2>Welcome <%= user.username %>!</h2>
 
 <form class="createQuote" action="" method="POST">
-    <label for="newQuote"></label>
-    <textarea  name="newQuote"></textarea>
+    <label for="newQuote">Your new quote:</label>
+    <textarea name="newQuote" placeholder="Input field for new quotes"></textarea>
 
-    <label for="quoteOrigin"></label>
+    <label for="quoteOrigin">Origin of quote:</label>
     <input type="text" name="quoteOrigin">
 
     <button type="submit">PUBLISH</button>
@@ -21,5 +21,11 @@
 <% } else { %>
     <p>You have not published any quotes yet!</p>
 <% } %>
+
+<form class="deleteAccount" action="/delete-account" method="POST">
+    <label for="">Delete my account:</label>
+    <button type="submit">Delete</button>
+</form>
+
 
 <%- include('./partials/foot.ejs') %>

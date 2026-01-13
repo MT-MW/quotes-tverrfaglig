@@ -18,7 +18,7 @@ const index = async (req, res) => {
             quote: quote || null,
         });
     } catch(err) {
-        console.log(err);
+        console.error(err);
     }
 };
 
@@ -47,6 +47,7 @@ const userQuotes = async (req, res) => {
         });
     } catch(err) {
         console.error(err);
+        res.status(500).render('404', { title: 'Error' });
     }
 };
 
