@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 const quoteSchema= new mongoose.schema({
     quote: {
         type: String,
-        required: [true, 'Please enter a quote'],
+        required: true,
         maxlength: 100,
         
     },
     quoteOrigin: {
         type: String,
-        required: [true, 'Please enter a origin for the quote'],
+        required: true,
     }
 });
 

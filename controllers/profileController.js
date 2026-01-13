@@ -8,7 +8,7 @@ const signupGET = (req, res) => {
         res.render('sign-up', {flash: {message: message, type: 'error'}});
         return;
     }
-    res.render('sign-up', {flash: null});
+    res.render('sign-up', {flash: null, title: 'Sign up'});
 };
 
 const signupPOST = async (req, res) => {
@@ -31,7 +31,7 @@ const signupPOST = async (req, res) => {
         const newUser = new User({ username, password });
         await newUser.save();
         console.info(`User ${username} saved to database.`);
-        res.redirect('/home');
+        res.redirect(`/home/${username}`);
     } catch (err) {
         console.error('Error during signup:', err);
         res.redirect('/sign-up');
@@ -45,7 +45,7 @@ const loginGET = (req, res) => {
         res.render('login', {flash: {message: message, type: 'error'}});
         return;
     }
-    res.render('login', {flash: null});
+    res.render('login', { flash: null, title: 'Log in' });
 };
 
 const loginPOST = async (req, res) => {
@@ -74,7 +74,7 @@ const loginPOST = async (req, res) => {
             sameSite: 'strict'
         });
 
-        return res.redirect('/home');
+        return res.redirect(`/home/${user.username}`);
 
     }catch (error) {
         console.error('Error during sign-in:', error);
@@ -90,6 +90,29 @@ const logout = (req, res) => {
     res.redirect('/log-in');
 }
 
+const home = async (req, res) => {
+    let flash = null;
+    if (req.cookies?.flash) {
+        const message = req.cookies.flash;
+        res.clearCookie('flash');
+        flash = { message, type: 'error' };
+    }
+
+    try {
+        const loggedInUser = await User.findById(req.auth.id);
+
+        if (loggedInUser.username !== req.params.username) {
+            createFlashCookie(res, 'You do not have access to this page. Redirecting to your homepage.');
+            return res.redirect(`/home/${loggedInUser.username}`);
+        }
+
+        res.render('home', { user: loggedInUser, title: 'Home', flash });
+    } catch (err) {
+        res.status(500).render('404');
+    }
+};
+
+
 function createFlashCookie(res, message) {
     console.log("Creating flash cookie with message:", message);
     res.cookie('flash', message, {httpOnly: true, sameSite: 'strict',maxAge: 5000});
@@ -102,4 +125,5 @@ module.exports = {
     loginGET,
     loginPOST,
     logout,
+    home,
 }

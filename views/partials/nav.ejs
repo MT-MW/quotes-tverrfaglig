@@ -1,8 +1,23 @@
 <nav>
     <a href="/"><img src="/img/logo.png" alt="inkPot logo"></a>
 
-    <h2><a href="/">QUOTES</a></h2>
+    <div class="NAVtitle">
+        <% if(typeof user !== 'undefined' && user !== null) { %>
+            <h2><a href="/home/<%= user.username %>">QUOTES | <%= user.username %></a></h2>
+        <% } else { %>
+            <h2><a href="/">QUOTES</a></h2>
+        <% } %>
+    </div>
 
-    <h2><a href="/sign-up">SIGN UP</a></h2>
-    <h2><a href="/log-in">LOG IN</a></h2>
+    <div class="NAVlinks">
+        <% if(typeof user !== 'undefined' && user !== null) { %>
+            <h2><a href="/create">NEW QUOTE</a></h2>
+            <form class="logoutBttn" action="/log-out" method="post">
+                <button type="submit">Log out</button>
+            </form>
+        <% } else { %>
+            <h2><a href="/sign-up">SIGN UP</a></h2>
+            <h2><a href="/log-in">LOG IN</a></h2>
+        <% } %>
+    </div>
 </nav>

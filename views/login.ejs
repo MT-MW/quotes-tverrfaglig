@@ -1,3 +1,6 @@
+<%- include('./partials/head.ejs') %>
+<%- include('./partials/nav.ejs') %>
+
 <form class="signinForm" action="/log-in" method="POST">
     <h2>LOG IN</h2>
     <label for="username">username:</label>
@@ -11,3 +14,5 @@
 
     <p>Don't have an account? <br> <a href="/sign-up">Sign up here</a></p>
 </form>
+
+<%- include('./partials/foot.ejs') %>
