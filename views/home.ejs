@@ -4,8 +4,22 @@
 
 <h2>Welcome <%= user.username %>!</h2>
 
-<form class="createQuote" action="">
+<form class="createQuote" action="" method="POST">
+    <label for="newQuote"></label>
+    <textarea  name="newQuote"></textarea>
 
+    <label for="quoteOrigin"></label>
+    <input type="text" name="quoteOrigin">
+
+    <button type="submit">PUBLISH</button>
 </form>
+
+<% if(quotes.length > 0) { %>
+    <% quotes.forEach(quote => { %>
+        <%- include('./partials/mainQuote.ejs', { quote }); %>
+    <% }) %>
+<% } else { %>
+    <p>You have not published any quotes yet!</p>
+<% } %>
 
 <%- include('./partials/foot.ejs') %>

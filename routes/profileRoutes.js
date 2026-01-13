@@ -9,5 +9,6 @@ router.get('/log-in', profileController.loginGET);
 router.post('/log-in', profileController.loginPOST);
 router.post('/log-out', profileController.logout);
 router.get('/home/:username', middleware.authenticate, profileController.home);
+router.post('/home/:username', middleware.authenticate, profileController.createQuote);
 
 module.exports = router;
