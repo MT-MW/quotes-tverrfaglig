@@ -32,6 +32,17 @@ const signupPOST = async (req, res) => {
         const newUser = new User({ username, password });
         await newUser.save();
         console.info(`User ${username} saved to database.`);
+
+        const token = jwt.sign(
+            {id: newUser._id}, 
+            'your_jwt_secret', 
+            {expiresIn: '5m'}
+        );
+        res.cookie('accessToken', token, {
+            httpOnly: true, 
+            sameSite: 'strict'
+        });
+
         res.redirect(`/home/${username}`);
     } catch (err) {
         console.error('Error during signup:', err);

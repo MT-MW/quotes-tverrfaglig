@@ -1,0 +1,12 @@
+<%- include('./partials/head.ejs') %>
+<%- include('./partials/nav.ejs') %>
+
+<% if(quotes.length > 0) { %>
+    <% quotes.forEach(quote => { %>
+        <%- include('./partials/mainQuote.ejs', { quote }); %>
+    <% }) %>
+<% } else { %>
+    <p>This user has not published any quotes yet!</p>
+<% } %>
+
+<%- include('./partials/foot.ejs') %>
