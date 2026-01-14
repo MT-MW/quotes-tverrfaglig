@@ -1,6 +1,8 @@
 <nav>
-    <a href="/"><img src="/img/logo.png" alt="inkPot logo"></a>
-
+    <div class="NAVlogo">
+        <a href="/"><img src="/img/logo.png" alt="inkPot logo"></a>
+    </div>
+    
     <div class="NAVtitle">
         <% if(typeof profileUser !== 'undefined' && profileUser !== null) { %>
             <h2><a href="/<%= profileUser.username %>"><%= profileUser.username %>'s quotes</a></h2>
@@ -13,7 +15,7 @@
 
     <div class="NAVlinks">
         <% if(typeof user !== 'undefined' && user !== null) { %>
-            <form class="logoutBttn" action="/log-out" method="post">
+            <form class="logout" action="/log-out" method="post">
                 <button type="submit">Log out</button>
             </form>
         <% } else { %>

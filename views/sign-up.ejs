@@ -3,14 +3,18 @@
 
 <form class="signupForm" action="/sign-up" method="POST">
     <h2>SIGN UP</h2>
-    <label for="username">username:</label>
-    <input type="text" name="username" required>
 
-    <label for="password">password:</label>
-    <input type="password" name="password" required>
+    <div class="inputs">
+        <label for="username">username:</label>
+        <input type="text" name="username" required>
 
-    <label for="confirmPassword">confirm password:</label>
-    <input type="password" name="confirmPassword" required>
+        <label for="password">password:</label>
+        <input type="password" name="password" required>
+
+        <label for="confirmPassword">confirm password:</label>
+        <input type="password" name="confirmPassword" required>        
+    </div>
+
     <%-include('./partials/messageField.ejs') %>
 
     <button type="submit">SIGN UP</button>
