@@ -1,13 +1,17 @@
 <%- include('./partials/head.ejs') %>
 <%- include('./partials/nav.ejs') %>
 
-<form class="signinForm" action="/log-in" method="POST">
+<form class="signupForm" action="/log-in" method="POST">
     <h2>LOG IN</h2>
-    <label for="username">username:</label>
-    <input type="text" name="username" required>
 
-    <label for="password">password:</label>
-    <input type="password" name="password" required>
+    <div class="inputs">
+        <label for="username">username:</label>
+        <input type="text" name="username" required>
+
+        <label for="password">password:</label>
+        <input type="password" name="password" required>
+    </div>
+
     <%-include('./partials/messageField.ejs') %>
 
     <button type="submit">LOG IN</button>

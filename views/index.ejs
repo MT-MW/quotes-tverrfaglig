@@ -2,7 +2,9 @@
 <%- include('./partials/nav.ejs') %>
 
 <% if(quote) { %>
-    <%- include('./partials/mainQuote.ejs', { quote }); %>
+    <div class="landingQuote">
+        <%- include('./partials/mainQuote.ejs', { quote }); %>
+    </div>
 <% } else { %>
     <p>There are no quotes here currently :(</p>
 <% } %>

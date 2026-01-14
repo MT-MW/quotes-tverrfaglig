@@ -2,25 +2,39 @@
 <%- include('./partials/nav.ejs') %>
 <%-include('./partials/messageField.ejs') %>
 
-<h2>Welcome <%= user.username %>!</h2>
+<div class="homeWelcome">
+    <h2>Welcome <%= user.username %>!</h2>
+</div>
 
 <form class="createQuote" action="" method="POST">
-    <label for="newQuote">Your new quote:</label>
-    <textarea name="newQuote" placeholder="Input field for new quotes"></textarea>
 
-    <label for="quoteOrigin">Origin of quote:</label>
-    <input type="text" name="quoteOrigin">
+    <div class="inputs">
+        <label for="newQuote">Your new quote:</label>
+        <textarea name="newQuote" placeholder="Input field for new quotes"></textarea>
+
+        <label for="quoteOrigin">Origin of quote:</label>
+        <input type="text" name="quoteOrigin">        
+    </div>
 
     <button type="submit">PUBLISH</button>
 </form>
 
-<% if(quotes.length > 0) { %>
-    <% quotes.forEach(quote => { %>
-        <%- include('./partials/mainQuote.ejs', { quote }); %>
-    <% }) %>
-<% } else { %>
-    <p>You have not published any quotes yet!</p>
-<% } %>
+<div class="homeWelcome yourQuotes">
+    <h2>Your quotes:</h2>
+</div>
+
+<div class="quotes">
+    <% if(quotes.length > 0) { %>
+        <% quotes.forEach(quote => { %>
+            <div class="quoteView">
+                <%- include('./partials/mainQuote.ejs', { quote }); %>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p>You have not published any quotes yet!</p>
+    <% } %>    
+</div>
+
 
 <form class="deleteAccount" action="/delete-account" method="POST">
     <label for="">Delete my account:</label>
