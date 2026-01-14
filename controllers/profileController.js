@@ -161,6 +161,11 @@ const createQuote = async (req, res) => {
             return res.redirect(`/home/${loggedInUser.username}`);
         }
 
+        if(quote.quote.length > 100) {
+            createFlashCookie(res, 'Your quote cant be more than 100 characters');
+            return res.redirect(`/home/${loggedInUser.username}`);
+        }
+
         if(!quote.quoteOrigin) {
             createFlashCookie(res, 'You need to enter a origin for your quote');
             return res.redirect(`/home/${loggedInUser.username}`);
