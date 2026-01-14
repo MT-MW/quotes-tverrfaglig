@@ -11,5 +11,6 @@ router.post('/log-out', profileController.logout);
 router.post('/delete-account', middleware.authenticate, profileController.deleteUser);
 router.get('/home/:username', middleware.authenticate, profileController.home);
 router.post('/home/:username', middleware.authenticate, profileController.createQuote);
+router.post('/delete-quote', middleware.authenticate, profileController.deleteQuote);
 
 module.exports = router;

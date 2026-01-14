@@ -1,22 +1,26 @@
 <%- include('./partials/head.ejs') %>
 <%- include('./partials/nav.ejs') %>
-<%-include('./partials/messageField.ejs') %>
+
+<div class="homeError">
+    <%-include('./partials/messageField.ejs') %>
+</div>
+
 
 <div class="homeWelcome">
     <h2>Welcome <%= user.username %>!</h2>
 </div>
 
 <form class="createQuote" action="" method="POST">
-
+    <input type="hidden" name="quoteId" id="quoteId">
     <div class="inputs">
         <label for="newQuote">Your new quote:</label>
-        <textarea name="newQuote" placeholder="Input field for new quotes"></textarea>
+        <textarea name="newQuote" placeholder="Input field for new quotes" id="newQuoteTextarea"></textarea>
 
         <label for="quoteOrigin">Origin of quote:</label>
-        <input type="text" name="quoteOrigin">        
+        <input type="text" name="quoteOrigin" id="quoteOriginInput">        
     </div>
 
-    <button type="submit">PUBLISH</button>
+    <button type="submit" id="publishButton">PUBLISH</button>
 </form>
 
 <div class="homeWelcome yourQuotes">
@@ -28,6 +32,17 @@
         <% quotes.forEach(quote => { %>
             <div class="quoteView">
                 <%- include('./partials/mainQuote.ejs', { quote }); %>
+                <div class="quoteEdit">
+                    <button class="editBtn singleButton" data-quote-id="<%= quote._id %>" data-quote-text="<%= quote.quote %>" data-quote-origin="<%= quote.quoteOrigin %>">
+                        Edit
+                    </button>
+                    <form class="singleButton" action="/delete-quote" method="POST">
+                        <input type="hidden" name="quoteId" value="<%= quote._id %>">
+                        <button type="submit" class="deleteBtn">
+                            Delete
+                        </button>
+                    </form>
+                </div>
             </div>
         <% }) %>
     <% } else { %>
@@ -36,10 +51,9 @@
 </div>
 
 
-<form class="deleteAccount" action="/delete-account" method="POST">
+<form class="singleButton" action="/delete-account" method="POST">
     <label for="">Delete my account:</label>
     <button type="submit">Delete</button>
 </form>
-
 
 <%- include('./partials/foot.ejs') %>

@@ -1,7 +1,7 @@
 * {
     --background-color: #335165;
     --light-background-color: #587D98;
-    --dark-text: #2A281E;
+    --dark-text: #0f0e0a;
     --light-text: #DFE7ED;
     --accent-color: #E0D99D;
 }
@@ -23,6 +23,14 @@ p {
 button:hover {
     cursor: pointer;
     background-color: var(--light-text);
+}
+
+/* error messages */
+
+.homeError {
+    color: var(--dark-text);
+    background-color: #ca7070;
+    text-align: center;
 }
 
 /* NAVBAR */
@@ -169,6 +177,7 @@ form button {
 
 .quote p {
     color: var(--accent-color);
+    margin: 0;
 }
 
 /* HOME page */
@@ -203,7 +212,12 @@ form button {
     border-bottom: var(--light-text) 1px solid;
 }
 
-.deleteAccount {
+.quoteEdit {
+    display: flex;
+    width: fit-content;
+}
+
+.singleButton {
     background-color: transparent;
     border: none;
     box-shadow: none;
@@ -212,9 +226,19 @@ form button {
     margin-top: 60px;
 }
 
-.deleteAccount button {
+.singleButton button {
     font-size: 20px;
     border: var(--dark-text) 1px solid;
+}
+
+.editBtn {
+    font-size: 20px;
+    border: var(--dark-text) 1px solid;
+    background-color: var(--accent-color);
+    color: var(--dark-text);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 10px;
 }
 
 /* FOOTER */

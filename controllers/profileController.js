@@ -149,35 +149,79 @@ const home = async (req, res) => {
 
 const createQuote = async (req, res) => {
     try{
+        const { newQuote, quoteOrigin, quoteId } = req.body;
         const loggedInUser = await User.findById(req.auth.id);
-        const quote = new Quote({
-            quote: req.body.newQuote,
-            quoteOrigin: req.body.quoteOrigin,
-            user: loggedInUser._id
-        });
 
-        if(!quote.quote) {
-            createFlashCookie(res, 'You need to enter a quote');
-            return res.redirect(`/home/${loggedInUser.username}`);
+        if(quoteId) {
+            const quote = await Quote.findById(quoteId);
+
+            if(!newQuote) {
+                createFlashCookie(res, 'You need to enter a quote');
+                return res.redirect(`/home/${loggedInUser.username}`);
+            }
+
+            if(newQuote.length > 100) {
+                createFlashCookie(res, 'Your quote cant be more than 100 characters');
+                return res.redirect(`/home/${loggedInUser.username}`);
+            }
+
+            if(!quoteOrigin) {
+                createFlashCookie(res, 'You need to enter a origin for your quote');
+                return res.redirect(`/home/${loggedInUser.username}`);
+            }
+
+            quote.quote = newQuote;
+            quote.quoteOrigin = quoteOrigin;
+            await quote.save();
+        } else {
+            const quote = new Quote({
+                quote: newQuote,
+                quoteOrigin: quoteOrigin,
+                user: loggedInUser._id
+            });
+
+            if(!quote.quote) {
+                createFlashCookie(res, 'You need to enter a quote');
+                return res.redirect(`/home/${loggedInUser.username}`);
+            }
+
+            if(quote.quote.length > 100) {
+                createFlashCookie(res, 'Your quote cant be more than 100 characters');
+                return res.redirect(`/home/${loggedInUser.username}`);
+            }
+
+            if(!quote.quoteOrigin) {
+                createFlashCookie(res, 'You need to enter a origin for your quote');
+                return res.redirect(`/home/${loggedInUser.username}`);
+            }        
+
+            await quote.save();
         }
-
-        if(quote.quote.length > 100) {
-            createFlashCookie(res, 'Your quote cant be more than 100 characters');
-            return res.redirect(`/home/${loggedInUser.username}`);
-        }
-
-        if(!quote.quoteOrigin) {
-            createFlashCookie(res, 'You need to enter a origin for your quote');
-            return res.redirect(`/home/${loggedInUser.username}`);
-        }        
-
-        await quote.save()
         res.redirect(`/home/${loggedInUser.username}`);
 
     } catch(err) {
         console.error(err);
+        createFlashCookie(res, 'An error occurred while saving the quote');
+        res.redirect(`/home/${loggedInUser.username}`);
     }
 }
+
+const deleteQuote = async (req, res) => {
+    try {
+        const { quoteId } = req.body;
+        const loggedInUser = await User.findById(req.auth.id);
+
+        await Quote.findOneAndDelete({
+            _id: quoteId,
+            user: loggedInUser._id
+        });
+
+        res.redirect(`/home/${loggedInUser.username}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).redirect('/');
+    }
+};
 
 function createFlashCookie(res, message) {
     console.log("Creating flash cookie with message:", message);
@@ -193,5 +237,6 @@ module.exports = {
     logout,
     deleteUser,
     home,
-    createQuote
+    createQuote,
+    deleteQuote,
 }
