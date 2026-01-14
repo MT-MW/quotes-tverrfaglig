@@ -22,6 +22,19 @@ const index = async (req, res) => {
     }
 };
 
+const faq = async (req, res) => {
+    try {
+        let user = null;
+        if (req.auth) {
+            user = await User.findById(req.auth.id);
+        }
+
+        res.render('faq', {user, title: 'faq'});
+    } catch(err) {
+        console.error(err)
+    }
+}
+
 const userQuotes = async (req, res) => {
     try {
         const username = req.params.username;
@@ -53,5 +66,6 @@ const userQuotes = async (req, res) => {
 
 module.exports = {
     index,
+    faq,
     userQuotes,
 };
